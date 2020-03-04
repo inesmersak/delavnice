@@ -1,10 +1,12 @@
 # Napredna Git delavnica: kako odpreti lepo urejen pull request
 11. marec 2020
 
+V ekipi večih razvijalcev, ki resno delajo na nekem produktu, osnovni git ukazi ne zadostujejo več, prav tako pa ne zadostuje pushanje kode na `master` branch. Če želimo zagotoviti pravilnost, robustnost in berljivost (ter s tem olajšati vzdrževanje) kode, je potrebno poskrbeti tudi za kvalitetne peer reviewje sprememb, predpogoj za to pa so lepo urejeni pull requesti. Cilj delavnice je osvojiti nekatere (malo bolj) napredne git ukaze, ki nam bodo pomagali pri procesu razvijanja in reviewjanja kode.
+
 Pogledali si bomo: 
 * delo z branchi, med drugim rebase, rebase interactive, cherry pick; 
 * razveljavljanje sprememb, med drugim amend, reset in reflog; 
-* kako odpreti in popraviti pull request (ter se dotaknili urejenih commitov in reviewjev).
+* kako odpreti in popraviti pull request (ter se dotaknili urejenih commitov in kvalitetnih pull request reviewjev).
 
 Potrebno je predznanje osnovnih git ukazov (add, commit, pull, push). 
 
