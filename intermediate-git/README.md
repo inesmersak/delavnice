@@ -16,6 +16,12 @@ Kdor bo imel svoj računalnik, naj si vnaprej namesti Git, splošna navodila za 
 Git je sistem za sledenje verzijam datotek (sem spadajo še npr. Subversion, Perforce), najbolj pogosto je uporabljen za sledenje spremembam v kodi.
 
 Osnovna logična enota sprememb je commit. Vsak commit je "snapshot" stanja naših datotek. Kako pridemo do commita?
+1. Modificiramo datoteko/e v svojem _working directoryju_. 
+2. Spremembe dodamo v _staging area_ z `git add <datoteka>`. 
+3. Commit ustvarimo iz "staged" sprememb z `git commit`. 
+
+Commiti se shranjujejo v mapo `.git`, ki je prisotna v vsakem repozitoriju in poleg commitov vsebuje tudi podatke o tem, kaj je dodano v staging area in druge metapodatke tega repozitorija.
+
 ![](https://git-scm.com/book/en/v2/images/areas.png)
 
 ## Zakaj Git? 
