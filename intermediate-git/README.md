@@ -25,6 +25,10 @@ Commiti se shranjujejo v mapo `.git`, ki je prisotna v vsakem repozitoriju in po
 ![](https://git-scm.com/book/en/v2/images/areas.png)
 
 ## Zakaj Git? 
+* popoln pregled nad spremembami (in njihovimi avtorji)
+* z lahkoto lahko preidemo na prejšnjo verzijo neke datoteke
+* distribuiran sistem: vsi imamo celoten repozitorij (z vso zgodovino) pri sebi
+* kljub vsemu zgornjemu repozitorij zaseda malo prostora, brskanje po zgodovini je hitro
 
 ## Delo v skupnem repozitoriju
 
