@@ -54,3 +54,21 @@ Dobro urejen pull request s svojimi commiti pripoveduje neko zgodbo -- reviewerj
 * Svoj branch si želel rebasati na latest master, vendar si ponesreči pullal -- kako razveljaviti pull?
 
 ## Povzetek Git ukazov
+### Dodajanje commita
+```
+git add <datoteka1> <datoteka2> ... <datotekaN>
+git commit
+```
+
+### Nov branch
+```
+git branch <ime>
+```
+Če se želimo premakniti na ta branch:
+```
+git checkout <ime>
+```
+Ustvarjanje novega brancha in premik v enem ukazu:
+```
+git checkout -b <ime>
+```
