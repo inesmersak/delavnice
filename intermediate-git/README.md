@@ -31,6 +31,15 @@ Commiti se shranjujejo v mapo `.git`, ki je prisotna v vsakem repozitoriju in po
 * kljub vsemu zgornjemu repozitorij zaseda malo prostora, brskanje po zgodovini je hitro
 
 ## Delo v skupnem repozitoriju
+Do sedaj ste verjetno delali v istem repozitoriju z največ tremi, štirimi drugimi za potrebe kakšnega projekta na faksu (razen, če ste opravljali kakšno študentsko delo v malo večjem podjetju), ali pa ste imeli svoj repozitorij za kakšen projekt, seminarsko ali diplomsko delo. Postopek je verjetno zgledal nekako tako: naredili ste neke spremembe, jih commitali, in pushali. Pred tem ste kolegom zabičali, naj ne pushajo nič novega, da ne bo konfliktov :) 
+
+Pri tem ste implicitno ves čas živeli na privzetem `master` branchu. Če so se konflikti slučajno zgodili, ker vas je kolega prehitel, ste naredili pull, ga razrešili, in ponovno pushali. 
+
+Če pa v istem repozitoriju dela nekaj deset programerjev na resnem projektu, to ne zadostuje več. Zakaj? 
+* Ne želimo nedokončane kode v `master` branchu; ta gre morda direktno live.
+* Preden spravimo kodo do stranke, jo želimo pregledati, potestirati, da deluje tako, kot je potrebno.
+
+Zato ima vsak programer ponavadi nek svoj "prostor", kjer razvija feature / odpravlja bug, ki mu je bil dodeljen. Ponavadi dela na svojem branchu v skupnem repozitoriju ali pa ima fork skupnega repozitorija.
 
 ### Branchi
 
@@ -72,3 +81,5 @@ Ustvarjanje novega brancha in premik v enem ukazu:
 ```
 git checkout -b <ime>
 ```
+
+
