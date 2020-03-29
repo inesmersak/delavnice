@@ -49,7 +49,23 @@ Kako narediti fork? Če želimo klonirati npr. repozitorij ul-fmf/nadlogar, pote
 Če za developanje v večji skupini programerjev uporabljamo svoj fork, ponavadi še vedno za vsak feature / bug naredimo svoj branch in odpremo pull request iz tega na originalni repozitorij, nato pa `master` branch na svojemu forku posodobimo s sprejetimi spremembami. Večina postopka je torej podobna, kot če bi delali s svojimi branchi znotraj originalnega repozitorija. 
 
 ### Branchi
+Ne glede na to, ali delamo v originalnem (skupnem) repozitoriju ali v svojem forku, bomo za vsak feature / bug verjetno želeli narediti nov branch. Zakaj? 
+* lažje sledimo, katere spremembe se nahajajo kje
+* lahko odpremo lepo urejene, vsebinsko zaključene pull requeste
+* lažje prekinemo nenujno delo na featureju, da popravimo kritičen bug v produkciji
 
+Nov branch lokalno naredimo z ukazom:
+```
+git branch <ime>
+```
+Preden začnemo dodajati spremembe na ta branch, se moramo nanj še premakniti, to naredimo z:
+```
+git checkout <ime>
+```
+Sedaj lahko normalno delamo spremembe, jih spravljamo v commite, ko smo z delom lokalno končali, pa nov branch (skupaj z vsemi commiti) pushamo na github repozitorij z:
+```
+git push -u origin <ime>
+```
 
 ### Pull requesti
 Moja koda dela -- želimo jo spraviti live.
