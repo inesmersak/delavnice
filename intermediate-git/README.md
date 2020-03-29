@@ -39,11 +39,17 @@ Pri tem ste implicitno ves čas živeli na privzetem `master` branchu. Če so se
 * Ne želimo nedokončane kode v `master` branchu; ta gre morda direktno live.
 * Preden spravimo kodo do stranke, jo želimo pregledati, potestirati, da deluje tako, kot je potrebno.
 
-Zato ima vsak programer ponavadi nek svoj "prostor", kjer razvija feature / odpravlja bug, ki mu je bil dodeljen. Ponavadi dela na svojem branchu v skupnem repozitoriju ali pa ima fork skupnega repozitorija.
+Zato ima vsak programer ponavadi nek svoj "prostor", kjer razvija feature / odpravlja bug, ki mu je bil dodeljen. Ponavadi dela na svojem branchu v skupnem repozitoriju ali pa ima fork skupnega repozitorija. 
+
+### Forki
+Fork repozitorija je uporabnikova kopija originalnega repozitorija, in se obnaša tako kot normalen repozitorij, ki bi ga naredil uporabnik, le da lahko naš fork posodabljamo s spremembami, ki so se zgodile v originalnem repozitoriju. Forki so posebej uporabni, če želimo veliko eksperimentirati, pa ne želimo zasmetiti originalnega repozitorija, ali pa v primeru odprto-kodnih projektov, ki ga želimo razširiti za našo uporabo, vendar razširitev morda ne sodi v core projekt. 
+
+Kako narediti fork? Če želimo klonirati npr. repozitorij ul-fmf/nadlogar, potem stisnemo na gumb `Fork`, potrdimo in ustvari se repozitorij <uporabnik>/nadlogar, ki je (zaenkrat) po vsebini identičen originalnemu. Sedaj lahko po mili volji dodajamo spremembe, jih pushamo, in če se nam zdi, da bi bila katera od sprememb koristna tudi za originalen projekt, naredimo pull request (iz nekega brancha svojega forka).
+  
+Če za developanje v večji skupini programerjev uporabljamo svoj fork, ponavadi še vedno za vsak feature / bug naredimo svoj branch in odpremo pull request iz tega na originalni repozitorij, nato pa `master` branch na svojemu forku posodobimo s sprejetimi spremembami. Večina postopka je torej podobna, kot če bi delali s svojimi branchi znotraj originalnega repozitorija. 
 
 ### Branchi
 
-### Forki
 
 ### Pull requesti
 Moja koda dela -- želimo jo spraviti live.
