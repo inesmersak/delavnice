@@ -24,6 +24,18 @@ class Database:
         self.conn.close()
         self.conn = None
 
+    def add_user(self, **kwargs):
+        self._assert_connection()
+        c = self.conn.cursor()
+        try:
+            c.execute('INSERT INTO user(username, password, balance) VALUES (:username, :password, :balance);', kwargs)
+            self.conn.commit()
+            user_id = c.lastrowid
+        except sqlite3.Error:
+            user_id = None
+        c.close()
+        return user_id
+
     def _initialize_bank_db(self):
         self._assert_connection()
         c = self.conn.cursor()

@@ -1,0 +1,37 @@
+% rebase('base.tpl', title='Registracija')
+<div class="row my-5">
+  <div class="col">
+    <h1>Registracija</h1>
+  </div>
+</div>
+<div class="row justify-content-center">
+  <div class="col-6">
+    % if user_id:
+    <p>Registracija uspešna, id {{user_id}}!</p>
+    <p>
+      <a class="btn btn-primary" href="/login">Prijava</a>
+    </p>
+    % else:
+      % if error:
+      <div class="alert alert-danger" role="alert">
+        Uporabniško ime je zasedeno. Prosim, izberite drugo.
+      </div>
+      % end
+    <form method="POST">
+      <div class="form-group">
+        <label for="inputUsername">Uporabniško ime</label>
+        <input type="text" class="form-control" id="inputUsername" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword">Geslo</label>
+        <input type="password" class="form-control" id="inputPassword" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="inputBalance">Stanje na računu</label>
+        <input type="number" max="100" min="0" value="10" class="form-control" id="inputBalance" name="balance">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    % end
+  </div>
+</div>
