@@ -1,11 +1,16 @@
-% rebase('base.tpl', title='Domov')
+% rebase('base.tpl', title='Domov', username=(user['username'] if user is not None else None))
 <div class="row mt-5">
   <div class="col">
     <h1>Vstopna stran</h1>
     <p>Dobrodošli na spletni strani najboljše banke!</p>
+    % if user is not None:
+    <p>Pozdravljen, {{user['username']}}</p>
+    <p>Stanje: {{user['balance']}}</p>
+    % else:
     <p>
       <a class="btn btn-primary" href="/login">Prijava</a>
       <a class="btn btn-secondary" href="/register">Registracija</a>
     </p>
+    % end
   </div>
 </div>

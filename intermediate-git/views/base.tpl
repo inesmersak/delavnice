@@ -20,11 +20,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" href="/">Domov <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="#">Stanje</a>
             <a class="nav-item nav-link" href="#">Nakaži</a>
           </div>
         </div>
+
+        % if defined('username') and username is not None:
+        <span class="text-white mx-4">Pozdravljen, {{username}}!</span>
+        <a class="btn btn-outline-light" href="/logout">Odjava</a>
+        % else:
+        <a class="btn btn-outline-light" href="/login">Prijava</a>
+        % end
       </nav>
     </header>
 

@@ -17,12 +17,24 @@ class Database:
         if self.is_connected():
             return
         self.conn = sqlite3.connect(_DB_NAME)
+        self.conn.row_factory = sqlite3.Row
 
     def close(self):
         if not self.is_connected():
             return
         self.conn.close()
         self.conn = None
+
+    def _execute_select(self, query, **kwargs):
+        self._assert_connection()
+        c = self.conn.cursor()
+        try:
+            c.execute(query, kwargs)
+            result = c.fetchone()
+        except sqlite3.Error:
+            result = None
+        c.close()
+        return result
 
     def add_user(self, **kwargs):
         self._assert_connection()
@@ -35,6 +47,14 @@ class Database:
             user_id = None
         c.close()
         return user_id
+
+    def authenticate_user(self, **kwargs):
+        select_query = 'SELECT id FROM user WHERE username=:username AND password=:password;'
+        return self._execute_select(select_query, **kwargs)
+
+    def fetch_user_by_id(self, id):
+        select_query = 'SELECT * FROM user WHERE id=:id;'
+        return self._execute_select(select_query, id=id)
 
     def _initialize_bank_db(self):
         self._assert_connection()
