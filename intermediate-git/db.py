@@ -1,6 +1,6 @@
 import sqlite3
 
-_DB_NAME = 'banka.sql'
+import conf
 
 
 class Database:
@@ -16,7 +16,7 @@ class Database:
     def connect(self):
         if self.is_connected():
             return
-        self.conn = sqlite3.connect(_DB_NAME)
+        self.conn = sqlite3.connect(conf.DB_NAME)
         self.conn.row_factory = sqlite3.Row
 
     def close(self):
