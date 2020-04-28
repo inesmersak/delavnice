@@ -1,6 +1,7 @@
 from bottle import redirect, request, response, route, run, template
 
 import conf
+import utils
 from db import Database
 
 DB = Database()
@@ -21,7 +22,7 @@ def login():
 
 @route('/login', method='POST')
 def login():
-    user_id_tuple = DB.authenticate_user(**{key: getattr(request.forms, key) for key in request.forms})
+    user_id_tuple = DB.authenticate_user(**utils.get_forms_dict(request.forms))
     if user_id_tuple is not None:
         response.set_cookie('user', str(user_id_tuple[0]), secret=conf.SECRET_KEY)
         redirect('/')
@@ -41,7 +42,7 @@ def register():
 
 @route('/register', method='POST')
 def register():
-    user_id = DB.add_user(**{key: getattr(request.forms, key) for key in request.forms})
+    user_id = DB.add_user(**utils.get_forms_dict(request.forms))
     return template('register', user_id=user_id, error=True)
 
 
