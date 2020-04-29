@@ -1,16 +1,21 @@
 % rebase('base.tpl', title='Domov', username=(user['username'] if user is not None else None))
 <div class="row mt-5">
   <div class="col">
-    <h1>Vstopna stran</h1>
-    <p>Dobrodošli na spletni strani najboljše banke!</p>
     % if user is not None:
-    <p>Pozdravljen, {{user['username']}}</p>
+    <h1>Pozdravljeni, {{user['username']}}!</h1>
     <p>Stanje: {{user['balance']}}</p>
     % else:
-    <p>
+    <h1>Pozdravljeni!</h1>
+    <p class="mt-3">Si želite <span class="font-weight-lighter" style="font-size: 1.2rem">ugodnih kreditov</span>, pa nimate kreditne sposobnosti?</p>
+    <p>So vaši kontakti na Novi Ljubljanski banki zatajili?</p>
+    <p><span class="font-weight-lighter" style="font-size: 1.2rem">Pridružite</span> se NNLB!</p>
+    <p class="mt-5">
       <a class="btn btn-primary" href="/login">Prijava</a>
       <a class="btn btn-secondary" href="/register">Registracija</a>
     </p>
+  </div>
+  <div class="col">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/OOXIXD0OCg0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     % end
   </div>
 </div>
