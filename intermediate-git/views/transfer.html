@@ -1,7 +1,7 @@
 % rebase('base.tpl', title='Nakaži', username=(current_user['username']))
 <div class="row mt-5">
   <div class="col">
-    <h1>Nakaži <small class="text-muted float-right">Trenutno stanje: {{current_user['balance']}}</small></h1>
+    <h1>Nakaži <small class="text-muted float-right">Stanje: {{current_user['balance']}}</small></h1>
     % if defined('success'):
       % if success:
       <div class="alert alert-success" role="alert">

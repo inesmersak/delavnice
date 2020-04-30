@@ -37,6 +37,7 @@ class Database:
             c.execute(query, kwargs)
             result = c.fetchall()
         except sqlite3.Error:
+            logger.exception('Failed to execute select')
             result = None
         c.close()
         return result
@@ -89,6 +90,12 @@ class Database:
             c.execute('ROLLBACK')
         c.close()
         return success
+
+    def fetch_user_transactions(self, user_id):
+        select_query = 'SELECT u1.username AS from_username, u2.username AS to_username, delta FROM bank_transaction ' \
+                       'LEFT JOIN user u1 ON from_user = u1.id  LEFT JOIN user u2 ON to_user = u2.id ' \
+                       'WHERE from_user = :user_id OR to_user = :user_id;'
+        return self._execute_select(select_query, user_id=user_id)
 
     def _initialize_bank_db(self):
         self._assert_connection()

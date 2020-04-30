@@ -12,7 +12,8 @@ DB.connect()
 def index():
     user_id = request.get_cookie('user', secret=conf.SECRET_KEY)
     user = None if user_id is None else DB.fetch_user_by_id(int(user_id))
-    return template('index', user=user)
+    transactions = DB.fetch_user_transactions(user_id) if user_id is not None else None
+    return template('index', user=user, transactions=transactions)
 
 
 @route('/login')

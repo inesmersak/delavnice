@@ -2,8 +2,26 @@
 <div class="row mt-5">
   <div class="col">
     % if user is not None:
-    <h1>Pozdravljeni, {{user['username']}}!</h1>
-    <p>Stanje: {{user['balance']}}</p>
+    <h1>Pozdravljeni, {{user['username']}}! <small class="text-muted float-right">Stanje: {{user['balance']}}</small></h1>
+    <h3 class="mt-5">Pretekle transakcije</h3>
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th scope="col">Pošiljatelj</th>
+          <th scope="col">Prejemnik</th>
+          <th scope="col">Vrednost</th>
+        </tr>
+      </thead>
+      <tbody>
+        % for transaction in transactions:
+        <tr>
+          <td>{{transaction['from_username']}}</td>
+          <td>{{transaction['to_username']}}</td>
+          <td>{{transaction['delta']}}</td>
+        </tr>
+        % end
+      </tbody>
+    </table>
     % else:
     <h1>Pozdravljeni!</h1>
     <p class="mt-3">Si želite <span class="font-weight-lighter" style="font-size: 1.2rem">ugodnih kreditov</span>, pa nimate kreditne sposobnosti?</p>
