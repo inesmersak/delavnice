@@ -1,6 +1,10 @@
+import logging
 import sqlite3
 
 import conf
+
+
+logger = logging.getLogger('nnlb')
 
 
 class Database:
@@ -18,6 +22,7 @@ class Database:
             return
         self.conn = sqlite3.connect(conf.DB_NAME)
         self.conn.row_factory = sqlite3.Row
+        self.conn.isolation_level = None  # enables manual transactions
 
     def close(self):
         if not self.is_connected():
@@ -30,7 +35,7 @@ class Database:
         c = self.conn.cursor()
         try:
             c.execute(query, kwargs)
-            result = c.fetchone()
+            result = c.fetchall()
         except sqlite3.Error:
             result = None
         c.close()
@@ -50,11 +55,40 @@ class Database:
 
     def authenticate_user(self, **kwargs):
         select_query = 'SELECT id FROM user WHERE username=:username AND password=:password;'
-        return self._execute_select(select_query, **kwargs)
+        result = self._execute_select(select_query, **kwargs)
+        return result[0] if len(result) > 0 else None
 
     def fetch_user_by_id(self, id):
         select_query = 'SELECT * FROM user WHERE id=:id;'
-        return self._execute_select(select_query, id=id)
+        result = self._execute_select(select_query, id=id)
+        return result[0] if len(result) > 0 else None
+
+    def fetch_all_users(self):
+        select_query = 'SELECT id, username FROM user ORDER BY username ASC;'
+        return self._execute_select(select_query)
+
+    def make_transaction(self, from_user, to_user, value):
+        success = False
+        c = self.conn.cursor()
+        try:
+            value = float(value)
+            c.execute('BEGIN')
+            c.execute('SELECT balance - ? FROM user WHERE id=?;', (value, from_user))
+            if c.fetchone()[0] < 0:
+                raise ValueError('User (id {}) does not have enough balance'.format(from_user))
+            c.execute('UPDATE user SET balance = balance - ? WHERE id=?;', (value, from_user))
+            logger.warning('User (id {}) balance change: {}'.format(from_user, -value))
+            c.execute('UPDATE user SET balance = balance + ? WHERE id=?;', (value, to_user))
+            logger.warning('User (id {}) balance change: {}'.format(to_user, value))
+            c.execute('INSERT INTO bank_transaction(from_user, to_user, delta) VALUES (?, ?, ?);',
+                      (from_user, to_user, value))
+            c.execute('COMMIT')
+            success = True
+        except (sqlite3.Error, ValueError):
+            logger.exception('Failed to make bank transaction')
+            c.execute('ROLLBACK')
+        c.close()
+        return success
 
     def _initialize_bank_db(self):
         self._assert_connection()

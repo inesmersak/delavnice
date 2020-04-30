@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <div class="navbar-nav">
             <a class="nav-item nav-link" href="/">Domov</a>
-            <a class="nav-item nav-link" href="#">Nakaži</a>
+            <a class="nav-item nav-link" href="/transfer">Nakaži</a>
           </div>
         </div>
 

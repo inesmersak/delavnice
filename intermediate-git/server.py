@@ -46,4 +46,23 @@ def register():
     return template('register', user_id=user_id, error=True)
 
 
+@route('/transfer')
+def transfer():
+    user_id = request.get_cookie('user', secret=conf.SECRET_KEY)
+    user = None if user_id is None else DB.fetch_user_by_id(int(user_id))
+    if user is None:
+        redirect('/login')
+    return template('transfer', current_user=user, users=DB.fetch_all_users())
+
+
+@route('/transfer', method='POST')
+def transfer():
+    user_id = request.get_cookie('user', secret=conf.SECRET_KEY)
+    if user_id is None:
+        redirect('/login')
+    user_id = int(user_id)
+    success = DB.make_transaction(user_id, request.forms.get('to_user'), request.forms.get('value'))
+    return template('transfer', success=success, current_user=DB.fetch_user_by_id(user_id), users=DB.fetch_all_users())
+
+
 run(host='localhost', port=8080, reloader=True)
