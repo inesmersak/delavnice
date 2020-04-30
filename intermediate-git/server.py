@@ -17,11 +17,15 @@ def index():
 
 @route('/login')
 def login():
+    if request.get_cookie('user', secret=conf.SECRET_KEY) is not None:
+        redirect('/')
     return template('login', register=False, error=False)
 
 
 @route('/login', method='POST')
 def login():
+    if request.get_cookie('user', secret=conf.SECRET_KEY) is not None:
+        redirect('/')
     user_id_tuple = DB.authenticate_user(**utils.get_forms_dict(request.forms))
     if user_id_tuple is not None:
         response.set_cookie('user', str(user_id_tuple[0]), secret=conf.SECRET_KEY)
@@ -37,11 +41,15 @@ def logout():
 
 @route('/register')
 def register():
+    if request.get_cookie('user', secret=conf.SECRET_KEY) is not None:
+        redirect('/')
     return template('register', user_id=None, error=False)
 
 
 @route('/register', method='POST')
 def register():
+    if request.get_cookie('user', secret=conf.SECRET_KEY) is not None:
+        redirect('/')
     user_id = DB.add_user(**utils.get_forms_dict(request.forms))
     return template('register', user_id=user_id, error=True)
 
