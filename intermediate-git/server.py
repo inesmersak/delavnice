@@ -20,7 +20,7 @@ def index():
 def login():
     if request.get_cookie('user', secret=conf.SECRET_KEY) is not None:
         redirect('/')
-    return template('login', register=False, error=False)
+    return template('login', error=False)
 
 
 @route('/login', method='POST')
@@ -31,7 +31,7 @@ def login():
     if user_id_tuple is not None:
         response.set_cookie('user', str(user_id_tuple[0]), secret=conf.SECRET_KEY)
         redirect('/')
-    return template('login', register=False, error=True)
+    return template('login', error=True)
 
 
 @route('/logout')
