@@ -53,36 +53,71 @@ Ne glede na to, ali delamo v originalnem (skupnem) repozitoriju ali v svojem for
 * lažje sledimo, katere spremembe se nahajajo kje
 * lahko odpremo lepo urejene, vsebinsko zaključene pull requeste
 * lažje prekinemo nenujno delo na featureju, da popravimo kritičen bug v produkciji
+* če podjetje uporablja tickete, so branchi pogosto vezani na številko ticketa
 
 Nov branch lokalno naredimo z ukazom:
 ```
 git branch <ime>
 ```
-Preden začnemo dodajati spremembe na ta branch, se moramo nanj še premakniti, to naredimo z:
+S tem ga baziramo na branchu, na katerem se trenutno nahajamo. Ponavadi je to `master` branch, oz. v primeru, da je 
+`master` branch direktno deployan na produkcijo, na vmesni `develop` branch. Vsi developerji, ki razvijajo nov feature, 
+svoj branch ponavadi bazirajo na tem branchu. 
+
+Preden začnemo dodajati spremembe na naš nov branch, se moramo nanj še premakniti, to naredimo z:
 ```
 git checkout <ime>
 ```
-Sedaj lahko normalno delamo spremembe, jih spravljamo v commite, ko smo z delom lokalno končali, pa nov branch (skupaj z vsemi commiti) pushamo na github repozitorij z:
+Sedaj lahko normalno delamo spremembe, jih spravljamo v commite, ko smo z delom lokalno končali, pa nov branch 
+(skupaj z vsemi commiti) pushamo na Github repozitorij
 ```
 git push -u origin <ime>
 ```
 
 ### Pull requesti
-Moja koda dela -- želimo jo spraviti live.
-
-Še preden pa jo mergamo, je potrebno narediti pull request review. 
+Ko zaključimo z implementacijo featureja / popravljanjem buga, želimo kodo spraviti nazaj v `develop` branch. To
+ naredimo tako, da pushamo svoj branch na Github repozitorij in nato na Githubu odpremo pull request. Pri tem
+ ponavadi assignamo nekoga, ki bo naš pull request pregledal in ga, ko se vsi strinjajo z implementacijo in je bil
+ pull request potestiran, mergal -- to pomeni, da bodo commiti iz našega brancha dodani v `develop` branch. (Če
+ reviewer izbere opcijo Squash & merge, bodo namesto posameznih commitov vse spremembe, ki smo jih naredili, squashane v
+ en commit, ki bo dodan na `develop` branch.)
 
 ### PR review
+Preden pa lahko pull request mergamo, je treba narediti PR review. Če gre za resen projekt, je treba preveriti, da
+ vse spremembe delajo in da nobena sprememba ne bo negativno vplivala na preostanek našega sistema (primer so 
+ prezahtevni queryji na bazi, ki trajajo predolgo, preveč obremenijo bazo in s tem vplivajo na nek kritičen del
+ našega sistema).
 
 #### Nasveti za avtorja
-Dobro urejen pull request s svojimi commiti pripoveduje neko zgodbo -- reviewerju je ob sledenju commitov očitno viden in razumljiv miselni proces za spremembami.
+Priporočljivo je delati manjše pull requeste, ki rešujejo samo en problem, saj je tako lažje narediti pregled kode.
+K temu pripomore tudi urejenost pull requesta. Dobro urejen pull request s svojimi commiti pripoveduje neko zgodbo
+ -- reviewerju je ob sledenju commitov očitno viden in razumljiv miselni proces za spremembami. Vsak commit naj
+ predstavlja manjšo spremembo, ki jo lahko na kratko opišemo v enem stavku (to naj bo msg našega commita).
 
 #### Nasveti za reviewerja
+* Pri vsaki vrstici spremembe premislimo, ali koda deluje točno tako, kot je zamišljeno, v vseh možnih scenarijih
+ (npr. ali koda deluje, če je uporabnik prijavljen, pa tudi ko ni). 
+* Med pregledom smo pozorni na to, ali je koda razumljiva in berljiva. Ali bi se jo dalo kako poenostaviti?
+* Če nismo prepričani, zakaj je avtor spremembo naredil na tak način, ga prosimo, da stvar utemelji. V tem primeru je
+ ponavadi smiselno tudi v kodi pustiti kratek komentar z utemeljitvijo načina implementacije. 
+* Ko avtor dopolni / popravi svoj pull request, ga ponovno pregledamo, in po potrebi pustimo nove komentarje.
+* Ko smo s kodo pull requesta zadovoljni, ga checkoutamo lokalno in potestiramo, da vse deluje. Če je vse v redu, 
+ mergamo pull request.
 
-## Zanimivi scenariji
-* Branch si začel iz nekega drugega brancha namesto iz masterja -- kako ga "rebasati" na masterja? 
-* Dodal si commit na napačen branch -- kako ga prestaviti na pravega?
-* Svoj branch si želel rebasati na latest master, vendar si ponesreči pullal -- kako razveljaviti pull?
+## Scenarij
+* Dodaj opcijo, da uporabnik nakaže nekaj denarja na svoj račun. Pri tem upoštevaj trenutno kodo in DRY (Don't Repeat
+ Yourself) princip. Spremembe naredi v več kot enem commitu na svojem branchu. 
+* Ko si s spremembami zadovoljen, odpri pull request na Githubu in dodaj reviewerja.
+* Reviewer zahteva nekaj popravkov, ki ne sodijo vsi v isti commit. Dodaj popravke v prave commite in jih pushaj. 
+ (Alternativno bi spremembe lahko dodali tudi v novem commitu.)
+* Vmes je nekdo v `develop` zlobno mergal nekaj sprememb, ki se dotikajo istih vrstic, kot tvoj pull request. Rebasaj
+ in resolvaj conflicte.
+* Checkoutaj pull request od kolega in ga potestiraj.
+
+### Kje se lahko zatakne
+* Branch začnemo iz nekega drugega brancha namesto iz masterja -- kako ga "rebasati" na masterja? 
+* Commit dodamo na napačen branch -- kako ga prestaviti na pravega?
+* Svoj branch želimo rebasati na zadnje spremembe `develop` brancha, vendar ponesreči pullamo -- kako razveljaviti
+ pull?
 
 ## Povzetek Git ukazov
 ### Dodajanje commita
