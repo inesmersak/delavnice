@@ -135,6 +135,26 @@ git add <datoteka1> <datoteka2> ... <datotekaN>
 git commit
 ```
 
+### Popravljanje zadnjega commita
+Naredi vse želene spremembe, jih dodaj z `git add`, nato pa namesto normalnega commita poženi  
+```
+git commit --amend
+```
+To odpre privzet editor (ponavadi Vim), kjer lahko dodatno spremenimo še sporočilo commita. 
+
+Če sporočila ne želimo spremeniti, lahko namesto tega poženemo:
+```
+git commit --amend --no-edit
+```
+da se izognemo odpiranju in zapiranju editorja.
+
+Alternativno lahko novo sporočilo podamo kar na ukazni vrstici:
+ ```
+git commit --amend -m "New commit msg"
+```
+
+### Popravljanje starejših commitov
+
 ### Nov branch
 ```
 git branch <ime>
