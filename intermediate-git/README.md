@@ -49,7 +49,16 @@ Kako narediti fork? Če želimo klonirati npr. repozitorij ul-fmf/nadlogar, pote
 Če za developanje v večji skupini programerjev uporabljamo svoj fork, ponavadi še vedno za vsak feature / bug naredimo svoj branch in odpremo pull request iz tega na originalni repozitorij, nato pa `master` branch na svojemu forku posodobimo s sprejetimi spremembami. Večina postopka je torej podobna, kot če bi delali s svojimi branchi znotraj originalnega repozitorija. 
 
 ### Branchi
-Ne glede na to, ali delamo v originalnem (skupnem) repozitoriju ali v svojem forku, bomo za vsak feature / bug verjetno želeli narediti nov branch. Zakaj? 
+Ko želimo razvijati kakšen drugačen feature, brez da bi pri tem motili glavno nit razvoja, ponavadi uporabimo
+ branching. Gitov branch je preprost pointer na zadnji commit, ta pa ima pointer na predzadnji commit ... Tudi `master
+ ` je čisto navaden branch. 
+ ![](https://git-scm.com/book/en/v2/images/branch-and-history.png)
+Ko naredimo nov branch `v1.0`, se ustvari pointer, ki kaže na zadnji commit brancha `master` (na tem smo bili, ko
+ smo ustvarili nov branch). Ko ustvarjamo nove commite, se bo pointer `v1.0` premikal naprej, `master` pa bo ostal, 
+ kjer je. Poznamo pa en poseben pointer, `HEAD`, ki kaže na branch, na katerem se trenutno nahajamo.
+
+Ne glede na to, ali delamo v originalnem (skupnem) repozitoriju ali v svojem forku, bomo za vsak posamezni feature / bug
+ verjetno želeli narediti nov branch. Zakaj? 
 * lažje sledimo, katere spremembe se nahajajo kje
 * lahko odpremo lepo urejene, vsebinsko zaključene pull requeste
 * lažje prekinemo nenujno delo na featureju, da popravimo kritičen bug v produkciji
