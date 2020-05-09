@@ -134,6 +134,9 @@ K temu pripomore tudi urejenost pull requesta. Dobro urejen pull request s svoji
 git add <datoteka1> <datoteka2> ... <datotekaN>
 git commit
 ```
+Commit hash je zgeneriran iz commit objekta in zgleda takole: `a9ca2c9f4e1e0061075aa47cbb97201a43b0f66f`
+Če spremenimo kaj v commitu (tudi predhodnika), se zato spremeni tudi hash. Za nanašanje se na commit je ponavadi
+ dovolj kratka verzija hasha, npr. `a9ca2c9`.
 
 ### Popravljanje zadnjega commita
 Naredi vse želene spremembe, jih dodaj z `git add`, nato pa namesto normalnega commita poženi  
@@ -153,8 +156,6 @@ Alternativno lahko novo sporočilo podamo kar na ukazni vrstici:
 git commit --amend -m "New commit msg"
 ```
 
-### Popravljanje starejših commitov
-
 ### Nov branch
 ```
 git branch <ime>
@@ -167,5 +168,47 @@ Ustvarjanje novega brancha in premik v enem ukazu:
 ```
 git checkout -b <ime>
 ```
+
+### Posodobitev svojega brancha
+Ko naredimo svoj branch iz npr. `develop` brancha in na njem delamo nekaj časa, se lahko `develop` branch vmes
+ posodobi (mergajo se drugi pull requesti). Pri tem se lahko mergane spremembe prekrivajo s tistimi na našem branchu, 
+ kar povzroči konflikte, ko odpremo pull request. V tem primeru (pa tudi sicer) želimo svoj branch posodobiti s
+ spremembami iz `develop`. To lahko naredimo na dva načina: z ukazoma `merge` ali `rebase`. 
+
+#### Merge
+Spremembe iz brancha `develop` mergamo z ukazom:
+```
+git checkout <ime>
+git merge develop
+```
+`merge` poišče zadnji skupni commit med branchema, ki ju mergamo, in nato poskuša avtomatsko skombinirati spremembe iz
+ zadnjih commitov na obeh branchih in skupnega prednika. Pri tem ustvari nov commit na branchu, kamor mergamo, ki mu
+ rečemo merge commit.
+![](https://git-scm.com/book/en/v2/images/basic-merging-2.png)
+Na sliki je primer merganja brancha `iss53`, ko je ta pripravljen, v branch `master`. Pri tem je nastal merge commit C6.
+
+#### Rebase
+Spremembe iz brancha `develop` lahko v svoj branch dodamo tudi z:
+```
+git checkout <ime>
+git rebase develop
+```
+`rebase` doda najnovejše commite iz `develop` brancha na naš branch, commite, ki smo jih naredili na svojem branchu, pa
+ prestavi za njih (dodaja enega po enega, pri čemer lahko pri vsakem pride do kakšnega konflikta, ki ga moramo rešiti
+ na roke). Pri tem naše commite pravzaprav prepiše, saj imajo po rebasu drugačen hash.
+![](https://git-scm.com/book/en/v2/images/basic-rebase-3.png)
+Na sliki je primer rebasanje brancha `experiment` na `master`. Pri tem se commit C4, ki smo ga naredili na branchu
+ `experiment` prepiše v C4'. 
+
+### Popravljanje starejših commitov
+
+### Spravljanje / resetiranje sprememb
+
+#### Stash
+
+#### Reset
+
+### Odstranitev brancha
+
 
 
