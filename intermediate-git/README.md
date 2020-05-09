@@ -260,11 +260,53 @@ Rebase se izvede, ko zapremo editor, po vrsti od zgornjega proti spodnjemu commi
  `git status`. 
 
 ### Razveljavljanje rebasea / mergea
+Če smo rebaseali ali mergali na nek branch, pa z rezultati nismo zadovoljni, nam pri razveljavljanju lahko pomaga
+ `git reflog`. reflog je dnevnik vseh sprememb pointerja `HEAD`. Če npr. naredimo en commit, nato pa poženemo
+  interaktiven rebase, bo reflog zgledal približno takole:
+```
+$ git reflog
+37656e1 HEAD@{0}: rebase -i (finish): returning to refs/heads/git_reflog
+37656e1 HEAD@{1}: rebase -i (start): checkout origin/master
+37656e1 HEAD@{2}: commit: some WIP changes 
+``` 
+Če želimo rebase razveljaviti, lahko stanje repozitorija resetiramo na commit pred rebaseom z
+```
+git reset HEAD@{2}
+```
 
 ### Spravljanje / razveljavljanje sprememb
+Ko poskusimo narediti pull, merge ali rebase, se nam lahko pojavi sledeče sporočilo:
+```
+You have unstaged changes.
+Please commit or stash them.
+```
+To pomeni, da imamo nekaj sprememb v _working directoryju_, ki jih moramo shraniti ali razveljaviti, preden
+ nadaljujemo z mergeom ali rebaseom. Lahko jih commitamo, poleg tega pa imamo na voljo še stash za začasno
+ shranjevanje in reset za zavrženje sprememb. 
 
 #### Stash
-
+Če želimo svoje spremembe začasno shraniti, lahko to naredimo z
+```
+git stash
+```
+Ko želimo zadnje shranjene spremembe ponovno uveljaviti in jih odstraniti iz stasha, pa uporabimo
+```
+git stash pop
+```
+Vse vnose v stashu lahko vidimo z
+```
+$ git stash list
+stash@{0}: WIP on submit: 6ebd0e2... Update git-stash documentation
+stash@{1}: On master: 9cc0589... Add git-stash
+```
+Starejše spremembe lahko uveljavimo z
+```
+git stash apply stash@{1}
+```
+Če jih želimo tudi odstraniti iz stasha, pa z
+```
+git stash pop stash@{1}
+```
 #### Reset
 
 ### Odstranitev brancha
