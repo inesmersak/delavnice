@@ -169,7 +169,9 @@ Ustvarjanje novega brancha in premik v enem ukazu:
 git checkout -b <ime>
 ```
 
-### Posodobitev svojega brancha
+### Pushanje brancha
+
+### Posodobitev brancha
 Ko naredimo svoj branch iz npr. `develop` brancha in na njem delamo nekaj časa, se lahko `develop` branch vmes
  posodobi (mergajo se drugi pull requesti). Pri tem se lahko mergane spremembe prekrivajo s tistimi na našem branchu, 
  kar povzroči konflikte, ko odpremo pull request. V tem primeru (pa tudi sicer) želimo svoj branch posodobiti s
@@ -201,8 +203,65 @@ Na sliki je primer rebasanje brancha `experiment` na `master`. Pri tem se commit
  `experiment` prepiše v C4'. 
 
 ### Popravljanje starejših commitov
+Obstaja tudi interaktivna verzija `rebase` ukaza, s katerim lahko poleg navadnega rebasea še spremenimo commite, ki so 
+ del rebasea. Ponavadi ga uporabljamo ravno za popravljanje commitov na svojem branchu, kar naredimo z ukazom:
+```
+git rebase -i HEAD~3
+```
+če želimo popraviti zadnje 3 commite. Pri tem je `HEAD` pointer na trenutni (torej naš) branch, torej zadnji commit
+ na njemu, `HEAD~1` pomeni predhodnik commita, na katerega kaže `HEAD`, `HEAD~3` pa predhodnik tri commite nazaj. 
+Dejansko branch rebaseamo samega nase nekaj commitov nazaj, z namenom spremembe teh commitov. 
+ Pri tem moramo specificirati predhodnika najstarejšega commita, ki ga želimo popraviti.
+ 
+ Ko ukaz poženemo, se odpre privzet editor s seznamom vseh commitov, vključenih v rebase, in dolgim seznamom navodil:
+```
+pick f7f3f6d Change my name a bit
+pick 310154e Update README formatting and add blame
+pick a5f4a0d Add cat-file
 
-### Spravljanje / resetiranje sprememb
+# Rebase 710f0f8..a5f4a0d onto 710f0f8
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup <commit> = like "squash", but discard this commit's log message
+# x, exec <command> = run command (the rest of the line) using shell
+# b, break = stop here (continue rebase later with 'git rebase --continue')
+# d, drop <commit> = remove commit
+# l, label <label> = label current HEAD with a name
+# t, reset <label> = reset HEAD to a label
+# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
+# .       create a merge commit using the original merge commit's
+# .       message (or the oneline, if no original merge commit was
+# .       specified). Use -c <commit> to reword the commit message.
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+```
+Pred vsakim commitom je ukaz, ki pove, kaj želimo z njim narediti. Bolj pomembne možnosti so:
+* `pick` zadrži commit brez sprememb, 
+* `reword` nam omogoča spremembo commit msga, 
+* `edit` pomeni, da se bo rebase ustavil, preden applyja ta commit, da ga bomo lahko amendali, 
+* `squash` trenuten commit združi s prejšnjim, commit msga pa združi,
+* `fixup` naredi isto kot squash, samo da zadrži le prejšnji commit msg,
+* `drop` izbriše commit. 
+
+Rebase se izvede, ko zapremo editor, po vrsti od zgornjega proti spodnjemu commitu, pri čemer se ustavi pri vsakem
+ commitu, kjer smo to specificirali, ter pri tistih, ki povzročijo konflikte. Ko jih razrešimo oz. naredimo, kar smo
+ želeli, rebase nadaljujemo z `git rebase --continue`. Če se odločimo, lahko rebase tudi prekličemo z `git rebase
+ --abort` (če se še ni izvedel v celoti). Trenutno stanje našega repozitorija lahko kadarkoli preverimo  z ukazom
+ `git status`. 
+
+### Razveljavljanje rebasea / mergea
+
+### Spravljanje / razveljavljanje sprememb
 
 #### Stash
 
