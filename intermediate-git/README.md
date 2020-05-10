@@ -308,6 +308,26 @@ git stash apply stash@{1}
 git stash pop stash@{1}
 ```
 #### Reset
+S pomočjo ukaza `reset` lahko stanje svojega repozitorija resetiramo na stanje pred zadnjim (predzadnjim ...) commitom.
+Poglejmo si ga na sledeči zgodovini repozitorija, ki ga bomo resetirali na predhodnika zadnjega commita, torej
+ `HEAD~`. 
+![](https://git-scm.com/book/en/v2/images/reset-start.png)
+Obstajajo trije načini reseta:
+* `git reset --soft HEAD~` premakne glavo brancha, na katerega kaže `HEAD`, na specificiran commit; v primeru `HEAD` 
+ po novem kaže na commit `9e5e6a4`,
+* `git reset --mixed HEAD~` poleg tega, kar naredi `--soft`, še unstagea vse spremembe, ki so zgodile po specificiranem
+ commitu oz. povzroči, da index izgleda kot nov `HEAD`; v primeru je v indexu zdaj v2 datoteke `file.txt`,
+* `git reset --hard HEAD~` poleg tega, kar naredi `--mixed`, še resetira working directory, da izgleda kot nov `HEAD`;
+v primeru je v working directoryju zdaj v2 datoteke `file.txt`.
+
+Če imamo v working directoryju spremembe, ki bi se jih želeli znebiti pred rebaseom, mergeom ali pullom, potem lahko
+ to naredimo z ukazom
+```
+git reset --hard HEAD
+```
+S tem resetiramo repozitorij na stanje zadnjega commita. Branch, na katerega kaže `HEAD`, se ne premakne, kakršnekoli
+ staged spremembe in spremembe v working directoryju pa se zavržejo. S tem ukazom (verzijo `--hard`) je treba biti
+ previden, saj ne-commitanih sprememb ne moremo dobiti nazaj.
 
 ### Odstranitev brancha
 
