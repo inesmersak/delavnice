@@ -170,12 +170,46 @@ git checkout -b <ime>
 ```
 
 ### Pushanje brancha
+Če želimo naš branch deliti z ostalimi (recimo, ko želimo odpreti pull request), ki delajo na istem projektu, ga lahko
+ pushamo z
+```
+git push -u origin <ime>
+```
+Pri tem `origin` označuje naslov repozitorija, ki se nastavi ob klicu git clone (podobno, kot je `master` ime
+ privzetega brancha, ki se naredi ob inicializaciji nekega repozitorija). Kam je usmerjen `origin`, lahko vidimo v 
+ `.git/config`.
+ 
+#### Remote branchi
+Poleg origina (ki označuje remote repozitorij, ki smo ga klonirali) imamo lahko nastavljene tudi druge remote
+ repozitorije (npr. fork od sodelavca). Remote branchi so podobni lokalnim, le da sledijo spremembam, ki se dogajajo
+ v remote repozitoriju -- lokalno jih ne moremo premakniti (npr. ne moremo commitati), so read-only.
+ Do remote brancha lahko dostopamo pod imenom `<remote>/<ime brancha>`, npr. `origin/login-feature`. Da
+ posodobimo remote branche s spremembami, ki so se zgodile v remote repozitoriju (npr. nekdo je mergal
+ pull request v `develop`), pokličemo 
+```
+git fetch <remote>
+```
+oziroma, če želimo posodobiti branche vseh remote repozitorijev / imamo samo en remote repozitorij:
+```
+git fetch
+```
+Ko lokalno prvič checkoutamo npr. `develop`, git ve, da v remote repozitoriju prav tako obstaja branch s takim 
+ imenom, in naš lokalni branch "poveže" z remote branchem. Ko lokalno naredimo `git push` ali `git pull` na temu
+ branchu, git zato ve, da naj se operaciji izvedeta na remote branchu, ki je povezan z lokalnim, in torej spremembe
+ svojega lokalnega brancha pushamo remote ali pa lokalni branch posodobimo z remote spremembami. 
+ (Ročno lahko povežemo tudi brancha, ki imata različni imeni.)
+
+Opcija `-u`, ki jo uporabimo, ko prvič pushamo svoj branch (npr. na `origin` kot zgoraj) poskrbi, da bo naš lokalni
+ branch povezan z remote branchem, ki smo ga ravno naredili s preostankom ukaza.
 
 ### Posodobitev brancha
 Ko naredimo svoj branch iz npr. `develop` brancha in na njem delamo nekaj časa, se lahko `develop` branch vmes
  posodobi (mergajo se drugi pull requesti). Pri tem se lahko mergane spremembe prekrivajo s tistimi na našem branchu, 
  kar povzroči konflikte, ko odpremo pull request. V tem primeru (pa tudi sicer) želimo svoj branch posodobiti s
- spremembami iz `develop`. To lahko naredimo na dva načina: z ukazoma `merge` ali `rebase`. 
+ spremembami iz `develop`. To lahko naredimo na dva načina: z ukazoma
+ `merge` ali `rebase`. 
+ (Pred tem poskrbimo, da lokalni `develop` branch vsebuje najnovejše spremembe s tem, da pullamo, ali pa
+ mergamo / rebasamo na remote branch `origin/develop`, ki ga posodobimo s fetchom.) 
 
 #### Merge
 Spremembe iz brancha `develop` mergamo z ukazom:
@@ -330,6 +364,18 @@ S tem resetiramo repozitorij na stanje zadnjega commita. Branch, na katerega ka�
  previden, saj ne-commitanih sprememb ne moremo dobiti nazaj.
 
 ### Odstranitev brancha
+Če želimo odstraniti lokalen branch
+```
+git branch -d <ime>
+```
+Če branch ni bil nikamor mergan oziroma ima nove commite, potem je treba odstranitev forceati z
+```
+git branch -D <ime>
+```
+Za odstranitev brancha tudi v remote repozitoriju `origin`
+```
+git push origin --delete <ime>
+```
 
 
 
