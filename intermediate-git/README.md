@@ -377,5 +377,96 @@ Za odstranitev brancha tudi v remote repozitoriju `origin`
 git push origin --delete <ime>
 ```
 
+### Zgodovina commitov
+Zgodovino commitov lahko vidimo z ukazom
+```
+git log
+```
+Če želimo videti tudi spremembe, ki so bile narejene v vsakim commitu
+```
+git log -p 
+```
+Če želimo videti samo statistiko sprememb in spremenjene datoteke
+```
+git log --stat
+```
+Za bolj kompakten zapis lahko uporabimo
+```
+git log --pretty=oneline
+```
+Output lahko še posebej formatiramo
+```
+$ git log --pretty=format:"%h - %an, %ar : %s"
+ca82a6d - Scott Chacon, 6 years ago : Change version number
+085bb3b - Scott Chacon, 6 years ago : Remove unnecessary test
+a11bef0 - Scott Chacon, 6 years ago : Initial commit 
+```
+Z opcijo `--graph` pa lahko vidimo predhodnika vsakega commita
+```
+$ git log --pretty=format:"%h %s" --graph
+* 2d3acf9 Ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit
+|\
+| * 420eac9 Add method for getting the current branch
+* | 30e367c Timeout code and tests
+* | 5a09431 Add timeout protection to grit
+* | e1193f8 Support for heads with slashes in them
+|/
+* d6016bc Require time for xmlschema
+*  11d191e Merge branch 'defunkt' into local 
+```
 
+#### Iskanje po zgodovini
+Če želimo poiskati vse commite, kjer se spremeni število pojavitev nekega niza, npr. imena neke funkcije ali
+ spremenljivke, potem lahko uporabimo
+```
+git log -S <ime_spremenljivke>
+```
+Za spremljanje razvoja (uporabe) neke funkcije znotraj specifične datoteke pa obstaja
+```
+$ git log -L :git_deflate_bound:zlib.c
+commit ef49a7a0126d64359c974b4b3b71d7ad42ee3bca
+Author: Junio C Hamano <gitster@pobox.com>
+Date:   Fri Jun 10 11:52:15 2011 -0700
+
+    zlib: zlib can only process 4GB at a time
+
+diff --git a/zlib.c b/zlib.c
+--- a/zlib.c
++++ b/zlib.c
+@@ -85,5 +130,5 @@
+-unsigned long git_deflate_bound(z_streamp strm, unsigned long size)
++unsigned long git_deflate_bound(git_zstream *strm, unsigned long size)
+ {
+-       return deflateBound(strm, size);
++       return deflateBound(&strm->z, size);
+ }
+
+
+commit 225a6f1068f71723a910e8565db4e252b3ca21fa
+Author: Junio C Hamano <gitster@pobox.com>
+Date:   Fri Jun 10 11:18:17 2011 -0700
+
+    zlib: wrap deflateBound() too
+
+diff --git a/zlib.c b/zlib.c
+--- a/zlib.c
++++ b/zlib.c
+@@ -81,0 +85,5 @@
++unsigned long git_deflate_bound(z_streamp strm, unsigned long size)
++{
++       return deflateBound(strm, size);
++}
++
+```
+
+### Prestavljanje commita
+Recimo, da začnemo z delom na novem featurju, pri tem pa pozabimo narediti nov branch in ponesreči commitamo na
+ branch, na katerem smo trenutno (recimo `develop`). Z `git log` lahko ugotovimo hash commita, ki ga želimo
+ premakniti, `develop` branch resetiramo (za en commit nazaj), nato pa naredimo nov branch, se premaknemo nanj, 
+ in uporabimo
+```
+git cherry-pick <hash>
+```
+da dodamo commit na nov branch.
 
