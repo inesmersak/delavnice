@@ -470,3 +470,37 @@ git cherry-pick <hash>
 ```
 da dodamo commit na nov branch.
 
+### Lažje testiranje pull requestov
+Z ukazom `git ls-remote` lahko vidimo remote branche in ostale remote reference:
+```
+$ git ls-remote
+10d539600d86723087810ec636870a504f4fee4d	HEAD
+10d539600d86723087810ec636870a504f4fee4d	refs/heads/master
+6a83107c62950be9453aac297bb0193fd743cd6e	refs/pull/1/head
+afe83c2d1a70674c9505cc1d8b7d380d5e076ed3	refs/pull/1/merge
+3c8d735ee16296c242be7a9742ebfbc2665adec1	refs/pull/2/head
+15c9f4f80973a2758462ab2066b6ad9fe8dcf03d	refs/pull/2/merge
+a5a7751a33b7e86c5e9bb07b26001bb17d775d1a	refs/pull/4/head
+31a45fc257e8433c8d8804e3e848cf61c9d3166c	refs/pull/4/merge
+```
+med drugim tudi `refs/pull/<n>/head`, ki so pravzaprav branchi pull requestov, vendar do njih ne moremo dostopati
+ direktno. Lahko bi fetchali in mergali to referenco v nek branch, vendar je to zamudno in nepraktično, če pogosto
+ reviewamo pull requeste. Lahko pa fetchamo vse pull requeste naenkrat.
+Če odpremo `.git/config`, vidimo nekaj takega:
+```
+[remote "origin"]
+    url = https://github.com/libgit2/libgit2
+    fetch = +refs/heads/*:refs/remotes/origin/*
+```
+dodamo še eno vrstico, da datoteka sedaj izgleda takole:
+```
+[remote "origin"]
+    url = https://github.com/libgit2/libgit2.git
+    fetch = +refs/heads/*:refs/remotes/origin/*
+    fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
+```
+Če lahko do remote branchov dostopamo prek `origin/<ime>`, lahko do pull requestov sedaj dostopamo z `origin/pr/<n>`
+ pri čemer je `<n>` številka pull requesta:
+```
+git checkout origin/pr/4
+``` 
